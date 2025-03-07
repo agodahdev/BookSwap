@@ -1,0 +1,10 @@
+# Set default behavior to automatically normalize line endings
+* text=auto
+
+# Explicitly set the line endings for specific file types
+*.css text
+*.html text
+*.py text
+
+# Specify diff settings for specific file types (optional)
+*.md diff=markdown

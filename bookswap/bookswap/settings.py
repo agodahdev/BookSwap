@@ -29,6 +29,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+import os
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -37,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users',
+    'books',
+    
 ]
 
 MIDDLEWARE = [

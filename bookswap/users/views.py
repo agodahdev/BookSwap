@@ -13,3 +13,21 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
+
+    # User login view
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('book_list')
+        else:
+            return render(request, 'users/login.html', {'error': 'Invalid credentials'})
+    return render(request, 'users/login.html')
+
+# User logout view
+def user_logout(request):
+    logout(request)
+    return redirect('book_list')

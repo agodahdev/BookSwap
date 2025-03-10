@@ -81,3 +81,25 @@ def request_book(request, book_id):
     BookRequest.objects.create(book=book, requester=request.user)
     messages.success(request, "Request sent successfully!")
     return redirect('book_list')
+
+# View for book owners to see requests
+@login_required
+def view_requests(request):
+    book_requests = BookRequest.objects.filter(book__owner=request.user, status='Pending')  # Get pending requests
+    return render(request, 'books/book_requests.html', {'book_requests': book_requests})
+
+# Approve a book request
+@login_required
+def approve_request(request, request_id):
+    book_request = get_object_or_404(BookRequest, id=request_id, book__owner=request.user)
+    book_request.status = 'Approved'
+    book_request.save()
+    return redirect('view_requests')
+
+# Reject a book request
+@login_required
+def reject_request(request, request_id):
+    book_request = get_object_or_404(BookRequest, id=request_id, book__owner=request.user)
+    book_request.status = 'Rejected'
+    book_request.save()
+    return redirect('view_requests')

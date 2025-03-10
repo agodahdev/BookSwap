@@ -22,10 +22,10 @@
             <td>{{ book.condition }}</td>
             <td>{{ book.location }}</td>
             {% if user == book.owner %}
-                <td>
-                    <a href="{% url 'edit_book' book.id %}" class="btn btn-warning">Edit</a>
-                    <a href="{% url 'delete_book' book.id %}" class="btn btn-danger delete-btn">Delete</a>
-                </td>
+            <td>
+                <a href="{% url 'edit_book' book.id %}" class="btn btn-warning">Edit</a>
+                <a href="{% url 'delete_book' book.id %}" class="btn btn-danger delete-btn">Delete</a>
+            </td>
             {% endif %}
         </tr>
         {% endfor %}

@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Request Book: {{ book.title }}</h2>
+<p>Your request has been sent to the book owner.</p>
+<a href="{% url 'book_list' %}">Back to Book List</a>
+{% endblock %}

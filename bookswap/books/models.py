@@ -16,3 +16,14 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title  # Return book title as default string
+
+# Model for book requests
+class BookRequest(models.Model):
+    STATUS_CHOICES = [('Pending', 'Pending'), ('Approved', 'Approved'), ('Rejected', 'Rejected')]
+
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)  # Requested book
+    requester = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # User requesting
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Pending')  # Status of request
+
+    def __str__(self):
+        return f"{self.requester.username} requested {self.book.title} - {self.status}"

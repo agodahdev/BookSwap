@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Add a New Book</h2>
+<h2>{% if book %}Edit{% else %}Add{% endif %} Book</h2>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Save Book</button>
+    <button type="submit" class="btn btn-primary">{% if book %}Update{% else %}Save{% endif %}</button>
 </form>
 {% endblock %}

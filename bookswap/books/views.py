@@ -43,3 +43,18 @@ def edit_book(request, book_id):
         form = BookForm(instance=book)  # Show form with existing book details
 
     return render(request, 'books/book_form.html', {'form': form})  # Render edit template
+
+# View for deleting a book
+@login_required
+def delete_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)  # Get book by ID
+
+    # Ensure only the owner can delete
+    if request.user != book.owner:
+        return redirect('book_list')
+
+    if request.method == 'POST':  # If confirmed
+        book.delete()
+        return redirect('book_list')
+
+    return render(request, 'books/book_delete.html', {'book': book})  # Render confirmation template

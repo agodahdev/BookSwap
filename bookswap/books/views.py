@@ -3,6 +3,8 @@ from .models import Book  # Import Book model
 from django.contrib.auth.decorators import login_required
 from .models import Book
 from .forms import BookForm
+from django.contrib import messages
+from .models import BookRequest
 
 # View for listing all books
 def book_list(request):
@@ -58,3 +60,24 @@ def delete_book(request, book_id):
         return redirect('book_list')
 
     return render(request, 'books/book_delete.html', {'book': book})  # Render confirmation template
+
+
+# View to request a book
+@login_required
+def request_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+
+    # Prevent users from requesting their own books
+    if book.owner == request.user:
+        messages.error(request, "You cannot request your own book.")
+        return redirect('book_list')
+
+    # Prevent duplicate requests
+    if BookRequest.objects.filter(book=book, requester=request.user).exists():
+        messages.warning(request, "You have already requested this book.")
+        return redirect('book_list')
+
+    # Create a new request
+    BookRequest.objects.create(book=book, requester=request.user)
+    messages.success(request, "Request sent successfully!")
+    return redirect('book_list')

@@ -26,6 +26,10 @@
                 <a href="{% url 'edit_book' book.id %}" class="btn btn-warning">Edit</a>
                 <a href="{% url 'delete_book' book.id %}" class="btn btn-danger delete-btn">Delete</a>
             </td>
+            {% if user.is_authenticated and book.owner != user %}
+            <td>
+                <a href="{% url 'request_book' book.id %}" class="btn btn-success">Request</a>
+            </td>
             {% endif %}
         </tr>
         {% endfor %}

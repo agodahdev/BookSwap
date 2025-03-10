@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Available Books</h2>
+<a href="{% url 'add_book' %}" class="btn btn-primary">Add New Book</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Condition</th>
+            <th>Location</th>
+            {% if user.is_authenticated %}
+                <th>Actions</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.condition }}</td>
+            <td>{{ book.location }}</td>
+            {% if user == book.owner %}
+                <td>
+                    <a href="{% url 'edit_book' book.id %}" class="btn btn-warning">Edit</a>
+                    <a href="{% url 'delete_book' book.id %}" class="btn btn-danger delete-btn">Delete</a>
+                </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

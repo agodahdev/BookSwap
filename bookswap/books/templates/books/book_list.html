@@ -1,17 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Available Books</h2>
-<a href="{% url 'add_book' %}" class="btn btn-primary">Add New Book</a>
-<table class="table">
-    <thead>
+<h2 class="text-center">Available Books</h2>
+<a href="{% url 'add_book' %}" class="btn btn-primary mb-3">Add New Book</a>
+
+<table class="table table-striped">
+    <thead class="table-dark">
         <tr>
             <th>Title</th>
             <th>Author</th>
             <th>Condition</th>
             <th>Location</th>
-            {% if user.is_authenticated %}
-                <th>Actions</th>
-            {% endif %}
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -21,16 +20,14 @@
             <td>{{ book.author }}</td>
             <td>{{ book.condition }}</td>
             <td>{{ book.location }}</td>
-            {% if user == book.owner %}
             <td>
-                <a href="{% url 'edit_book' book.id %}" class="btn btn-warning">Edit</a>
-                <a href="{% url 'delete_book' book.id %}" class="btn btn-danger delete-btn">Delete</a>
+                {% if user == book.owner %}
+                    <a href="{% url 'edit_book' book.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'delete_book' book.id %}" class="btn btn-danger btn-sm delete-btn">Delete</a>
+                {% elif user.is_authenticated %}
+                    <a href="{% url 'request_book' book.id %}" class="btn btn-success btn-sm">Request</a>
+                {% endif %}
             </td>
-            {% if user.is_authenticated and book.owner != user %}
-            <td>
-                <a href="{% url 'request_book' book.id %}" class="btn btn-success">Request</a>
-            </td>
-            {% endif %}
         </tr>
         {% endfor %}
     </tbody>
